@@ -163,23 +163,25 @@ void mmc_request_done(struct mmc_host *host, struct mmc_request *mrq)
 
 		led_trigger_event(host->led, LED_OFF);
 
-		pr_debug("%s: req done (CMD%u): %d: %08x %08x %08x %08x\n",
+/*		pr_debug("%s: req done (CMD%u): %d: %08x %08x %08x %08x\n",
 			mmc_hostname(host), cmd->opcode, err,
 			cmd->resp[0], cmd->resp[1],
 			cmd->resp[2], cmd->resp[3]);
-
+*/
 		if (mrq->data) {
-			pr_debug("%s:     %d bytes transferred: %d\n",
+/*			pr_debug("%s:     %d bytes transferred: %d\n",
 				mmc_hostname(host),
 				mrq->data->bytes_xfered, mrq->data->error);
+*/
 		}
 
 		if (mrq->stop) {
-			pr_debug("%s:     (CMD%u): %d: %08x %08x %08x %08x\n",
+			/*pr_debug("%s:     (CMD%u): %d: %08x %08x %08x %08x\n",
 				mmc_hostname(host), mrq->stop->opcode,
 				mrq->stop->error,
 				mrq->stop->resp[0], mrq->stop->resp[1],
 				mrq->stop->resp[2], mrq->stop->resp[3]);
+			*/
 		}
 
 		if (mrq->done)
@@ -200,28 +202,29 @@ mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
 #endif
 
 	if (mrq->sbc) {
-		pr_debug("<%s: starting CMD%u arg %08x flags %08x>\n",
+/*		pr_debug("<%s: starting CMD%u arg %08x flags %08x>\n",
 			 mmc_hostname(host), mrq->sbc->opcode,
-			 mrq->sbc->arg, mrq->sbc->flags);
+			 mrq->sbc->arg, mrq->sbc->flags);*/
 	}
 
-	pr_debug("%s: starting CMD%u arg %08x flags %08x\n",
+	/*pr_debug("%s: starting CMD%u arg %08x flags %08x\n",
 		 mmc_hostname(host), mrq->cmd->opcode,
-		 mrq->cmd->arg, mrq->cmd->flags);
+		 mrq->cmd->arg, mrq->cmd->flags);*/
 
 	if (mrq->data) {
-		pr_debug("%s:     blksz %d blocks %d flags %08x "
+		/*pr_debug("%s:     blksz %d blocks %d flags %08x "
 			"tsac %d ms nsac %d\n",
 			mmc_hostname(host), mrq->data->blksz,
 			mrq->data->blocks, mrq->data->flags,
 			mrq->data->timeout_ns / 1000000,
 			mrq->data->timeout_clks);
+		*/
 	}
 
 	if (mrq->stop) {
-		pr_debug("%s:     CMD%u arg %08x flags %08x\n",
+/*		pr_debug("%s:     CMD%u arg %08x flags %08x\n",
 			 mmc_hostname(host), mrq->stop->opcode,
-			 mrq->stop->arg, mrq->stop->flags);
+			 mrq->stop->arg, mrq->stop->flags);*/
 	}
 
 	WARN_ON(!host->claimed);
@@ -350,8 +353,8 @@ static void mmc_wait_for_req_done(struct mmc_host *host,
 		    mmc_card_removed(host->card))
 			break;
 
-		pr_debug("%s: req failed (CMD%u): %d, retrying...\n",
-			 mmc_hostname(host), cmd->opcode, cmd->error);
+	/*	pr_debug("%s: req failed (CMD%u): %d, retrying...\n",
+			 mmc_hostname(host), cmd->opcode, cmd->error);*/
 		cmd->retries--;
 		cmd->error = 0;
 		host->ops->request(host, mrq);
@@ -861,12 +864,12 @@ static inline void mmc_set_ios(struct mmc_host *host)
 {
 	struct mmc_ios *ios = &host->ios;
 
-	pr_debug("%s: clock %uHz busmode %u powermode %u cs %u Vdd %u "
+/*	pr_debug("%s: clock %uHz busmode %u powermode %u cs %u Vdd %u "
 		"width %u timing %u\n",
 		 mmc_hostname(host), ios->clock, ios->bus_mode,
 		 ios->power_mode, ios->chip_select, ios->vdd,
 		 ios->bus_width, ios->timing);
-
+*/
 	if (ios->clock > 0)
 		mmc_set_ungated(host);
 	host->ops->set_ios(host, ios);
@@ -1938,8 +1941,9 @@ unsigned int mmc_calc_max_discard(struct mmc_card *card)
 	} else if (max_discard < card->erase_size) {
 		max_discard = 0;
 	}
-	pr_debug("%s: calculated max. discard sectors %u for timeout %u ms\n",
+/*	pr_debug("%s: calculated max. discard sectors %u for timeout %u ms\n",
 		 mmc_hostname(host), max_discard, host->max_discard_to);
+*/
 	return max_discard;
 }
 EXPORT_SYMBOL(mmc_calc_max_discard);
